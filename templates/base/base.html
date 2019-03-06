@@ -1,0 +1,58 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static 'base/css/base.css' %}">
+
+    <title>
+        {% block title %}
+            base
+        {% endblock %}
+    </title>
+{% block extcss %}
+{% endblock %}
+</head>
+<body>
+
+{#头部#}
+{#头部结束#}
+{% block body %}
+    {% block header %}
+        <header>爱先蜂</header>
+    {% endblock %}
+
+    {#主体内容#}
+    {% block content %}
+        主体内容
+    {% endblock %}
+    {# 主体内容结束 #}
+
+    {#底部导航#}
+    {% block footer %}
+        <footer>
+            <a href="">首页</a>
+            <a href="">闪购超市</a>
+        </footer>
+    {% endblock %}
+    {#底部结束#}
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
+
+<script src="{% static 'base/js/base.js' %}"></script>
+{% block extjs %}
+
+{% endblock %}
