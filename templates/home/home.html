@@ -1,6 +1,14 @@
 {% extends 'base/base.html' %}
+{% load static %}
 
 {% block title %}
     首页
 {% endblock %}
 
+{% block extcss %}
+    <link rel="stylesheet" href="{% static 'home/css/home.css' %}">
+{% endblock %}
+
+{% block content %}
+home
+{% endblock %}

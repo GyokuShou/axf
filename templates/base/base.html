@@ -3,56 +3,69 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{% static 'base/css/reset.css' %}">
     <link rel="stylesheet" href="{% static 'base/css/base.css' %}">
-
     <title>
         {% block title %}
             base
         {% endblock %}
     </title>
-{% block extcss %}
-{% endblock %}
+    {% block extcss %}
+    {% endblock %}
 </head>
 <body>
 
-{#头部#}
-{#头部结束#}
+
 {% block body %}
+    {#头部#}
     {% block header %}
         <header>爱先蜂</header>
-    {% endblock %}
+    {% endblock %}{#头部结束#}
 
     {#主体内容#}
-    {% block content %}
-        主体内容
-    {% endblock %}
-    {# 主体内容结束 #}
+    <div class="hidescroll">
+        <div id="content">
+            {% block content %}
+                主体内容
+            {% endblock %}
+        </div>
+    </div>{# 主体内容结束 #}
 
     {#底部导航#}
     {% block footer %}
         <footer>
-            <a href="">首页</a>
-            <a href="">闪购超市</a>
+            <a href="{% url 'app:home' %}" class="home">
+                <div class="item">
+                    <div class="img"><span></span></div>
+                    <div class="name">首页</div>
+                </div>
+            </a>
+            <a href="{% url 'app:market' %}" class="market">
+                <div class="item">
+                    <div class="img"><span></span></div>
+                    <div class="name">闪购超市</div>
+                </div>
+            </a>
+            <a href="{% url 'app:cart' %}" class="cart">
+                <div class="item">
+                    <div class="img"><span></span></div>
+                    <div class="name">购物车</div>
+                </div>
+            </a>
+            <a href="{% url 'app:mine' %}" class="mine">
+                <div class="item">
+                    <div class="img"><span></span></div>
+                    <div class="name">我的</div>
+                </div>
+            </a>
         </footer>
-    {% endblock %}
-    {#底部结束#}
-
+    {% endblock %}{#底部结束#}
 {% endblock %}
-
-
-
-
-
-
-
-
-
-
-
 </body>
 </html>
-
+<script src="{% static 'base/js/jquery1.11.1.min.js' %}"></script>
 <script src="{% static 'base/js/base.js' %}"></script>
 {% block extjs %}
-
 {% endblock %}
