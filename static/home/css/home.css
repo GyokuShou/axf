@@ -1,3 +1,4 @@
+/* base css */
 footer .home span {
 	background: url(/static/base/img/home1.png) no-repeat center;
 	background-size: 1.25rem;
@@ -6,3 +7,118 @@ footer .home span {
 footer .home .name{
     color: #ffd601;
 }
+/* base css end */
+
+
+/* 顶部轮播图 */
+#top-swiper {
+    height: 8rem;
+    width: 100%;
+    overflow: hidden;
+}
+
+#top-swiper .swiper-wrapper{
+    width: 100%;
+    height: 100%;
+}
+#top-swiper .swiper-wrapper a{
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+}
+#top-swiper img{
+    width: 100%;
+    height: 100%;
+}
+#top-swiper .swiper-pagination{
+    bottom: 0px;
+}
+/* 顶部轮播图结束 */
+
+
+/* 导航 */
+.nav{
+    /* 8px*/
+    margin: 0.5rem 0;
+    background: white;
+    /* 10px*/
+    padding: 0 0.625rem 0.625rem 0.625rem;
+}
+.nav ul{
+    display: flex;
+}
+.nav ul li{
+    width:25%;
+    text-align: center;
+    /* 11px*/
+    font-size: 0.6875rem;
+}
+.nav ul li img{
+    width: 100%;
+    margin-bottom: 0.625rem;
+}
+/* 导航结束 */
+
+
+/* 必购 */
+#mustbuy-swiper img{
+	width: 100%;
+}
+/* 必购结束 */
+
+
+/* 商品*/
+.shop{
+    background: white;
+    margin: 0.5rem 0;
+}
+.shop .shophead{
+    width: 100%;
+}
+.shop .shophead a{
+    display: inline-block;
+}
+.shop .shophead img{
+    width: 100%;
+}
+.shop .shoptab{
+    width: 100%;
+    display: flex;
+}
+.shop .shoptab a{
+    width:50%;
+}
+.shop .shoptab img {
+    width:100%;
+}
+.shop .shopclass{
+    display: flex;
+}
+.shop .shopclass li{
+    width: 25%;
+}
+.shop .shopclass li a{
+    display: inline-block;
+}
+.shop .shopclass li img{
+    width:100%;
+}
+.shop .shopcommend{
+    width: 100%;
+    display: flex;
+    /*
+        nowrap: 默认值。规定灵活的项目不拆行或不拆列
+        wrap： 规定灵活的项目在必要的时候拆行或拆列
+    */
+    flex-wrap: wrap;
+}
+.shop .shopcommend li{
+    width:50%;
+}
+.shop .shopcommend li a{
+    display: block;
+}
+.shop .shopcommend li img{
+    width: 100%;
+}
+/* 商品结束 */

@@ -6,9 +6,71 @@
 {% endblock %}
 
 {% block extcss %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.4.2/css/swiper.min.css">
     <link rel="stylesheet" href="{% static 'home/css/home.css' %}">
 {% endblock %}
 
 {% block content %}
-home
+    <div class="home">
+        <div class="swiper-container" id="top-swiper">
+            <div class="swiper-wrapper">
+                {% for wheel in wheels %}
+                    <div class="swiper-slide"><img src="{{ wheel.img }}" alt="{{ wheel.name }}"></div>
+                {% endfor %}
+            </div>
+            <!-- Add Pagination -->
+            <div class="swiper-pagination"></div>
+        </div>
+        <div class="nav">
+            <ul>
+                {% for nav in navs %}
+                    <li><img src="{{ nav.img }}" alt=""><p>{{ nav.name }}</p></li>
+
+                {% endfor %}
+
+            </ul>
+        </div>
+        <div class="swiper-container" id="mustbuy-swiper">
+            <div class="swiper-wrapper">
+                {% for mustbuy in mustbuy %}
+                    <div class="swiper-slide"><img src="{{ mustbuy.img }}" alt="{{ wheel.name }}"></div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="shop">
+            <div class="shophead">
+                <img src="{{ shophead.img }}" alt="{{ shophead.name }}">
+            </div>
+            <div class="shoptab">
+                {% for tab in shoptab %}
+                    <a href="">
+                    <img src="{{ tab.img }}" alt="{{ tab.name }}">
+                </a>
+                {% endfor %}
+            </div>
+            <ul class="shopclass">
+                {% for shopclass in shopclass_list %}
+                    <li>
+                        <a href=""><img src="{{ shopclass.img }}" alt="{{ shopclass.name }}"></a>
+                    </li>
+                {% endfor %}
+
+            </ul>
+            <ul class="shopcommend">
+                {% for com in shopcommend %}
+                    <li>
+                        <a href=""><img src="{{ com.img }}" alt="{{ com.name }}"></a>
+                    </li>                
+                {% endfor %}
+                
+            </ul>
+        </div>
+    </div>
+{% endblock %}
+
+
+
+{% block extjs %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.4.2/js/swiper.jquery.min.js"></script>
+    <script src="{% static 'home/js/home.js' %}"></script>
 {% endblock %}
