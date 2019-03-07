@@ -1,7 +1,7 @@
 from django.shortcuts import render
 
 # Create your views here.
-from app.models import Wheel, Nav, Mustbuy, Shop
+from app.models import Wheel, Nav, Mustbuy, Shop, MainShow
 
 
 def home(request):
@@ -15,6 +15,8 @@ def home(request):
     shopclass_list = shops[3:7]
     shopcommend = shops[7:11]
 
+    mainshows = MainShow.objects.all()
+
 
     response_dir = {
         'wheels':wheels,
@@ -24,6 +26,7 @@ def home(request):
         'shoptab': shoptab,
         'shopclass_list': shopclass_list,
         'shopcommend': shopcommend,
+        'mainshows': mainshows,
     }
 
     return render(request,'home/home.html',context=response_dir)
