@@ -1,6 +1,6 @@
 // 顶部轮播图
 $(function(){
-    var swiper = new Swiper('#top-swiper', {
+    var topSwiper = new Swiper('#top-swiper', {
     pagination: '.swiper-pagination',
     slidesPerView: 1,
     paginationClickable: true,
@@ -14,10 +14,8 @@ $(function(){
 
 // 必购js
 $(function(){
-    var swiper = new Swiper('#mustbuy-swiper', {
-    pagination: '.swiper-pagination',
+    var mustbuySwiper = new Swiper('#mustbuy-swiper', {
     slidesPerView: 3,
-    // paginationClickable: true,
     spaceBetween: 5,
     loop: true,
     });
