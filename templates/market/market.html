@@ -10,5 +10,56 @@
 {% endblock %}
 
 {% block content %}
-market
+<div class="market">
+    <div class="type-slider">
+        <ul>
+            {% for foodtype in foodtypes %}
+                <li class="type-item">
+                    <span></span>
+                    <a href="{% url 'app:market' foodtype.id %}">
+                    {% if forloop.counter == foodtype.typesort %}
+                        {{ foodtype.typename }}
+                    {% endif %}
+                </a></li>
+            {% endfor %}
+        </ul>
+    </div>
+    <nav>
+        <ul>
+            <li>
+                <span>全部类型</span>
+                <i class="glyphicon glyphicon-chevron-up"></i>
+            </li>
+            <li>
+                <span>综合排序</span>
+                <i class="glyphicon glyphicon-chevron-up"></i>
+            </li>
+        </ul>
+    </nav>
+    <div class="main-content">
+        <div class="content-wrapper">
+            <ul>
+                {% for good in good_list %}
+                    <li>
+                    <a href="">
+                        <img src="{{ good.productimg }}" alt="" class="goods-img">
+                        <div class="goods-info">
+                            <p class="name">{{ good.productlongname }}</p>
+                            <div class="detailtag">
+                                <span class="xf">{{ good.isxf }}</span>
+                                <i>{{ good.specifics }}</i>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                {% endfor %}
+
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extjs %}
+    <script src="{% static 'market/js/market.js' %}"></script>
 {% endblock %}

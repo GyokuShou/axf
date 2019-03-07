@@ -59,3 +59,33 @@ class MainShow(models.Model):
 
     class Meta:
         db_table = 'axf_mainshow'
+
+# typeid,typename,childtypenames,typesort
+class Foodtype(models.Model):
+    typeid = models.CharField(max_length=10)
+    typename = models.CharField(max_length=100)
+    childtypenames = models.CharField(max_length=200)
+    typesort = models.IntegerField()
+
+    class Meta:
+        db_table = 'axf_foodtypes'
+
+class Goods(models.Model):
+    productid = models.CharField(max_length=10)
+    productimg = models.CharField(max_length=200)
+    productname = models.CharField(max_length=100)
+    productlongname = models.CharField(max_length=200)
+    isxf = models.BooleanField(default=False)
+    pmdesc = models.BooleanField(default=False)
+    specifics = models.CharField(max_length=100)
+    price = models.FloatField()
+    marketprice = models.FloatField()
+    categoryid = models.CharField(max_length=10)
+    childcid = models.CharField(max_length=10)
+    childcidname = models.CharField(max_length=50)
+    dealerid = models.CharField(max_length=10)
+    storenums = models.IntegerField()
+    productnum = models.IntegerField()
+
+    class Meta:
+        db_table = 'axf_goods'

@@ -7,4 +7,6 @@ urlpatterns = [
     url(r'^market/$', views.market, name='market'),
     url(r'^cart/$', views.cart, name='cart'),
     url(r'^mine/$', views.mine, name='mine'),
+
+    url(r'^market/(?P<id>\d+)/$', views.market, name='market'),
 ]
