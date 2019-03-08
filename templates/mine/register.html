@@ -1,0 +1,21 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block title %}
+注册
+{% endblock %}
+{% block footer %}
+{% endblock %}
+{% block extcss %}
+    <link rel="stylesheet" href="{% static 'mine/css/register.css' %}">
+{% endblock %}
+{% block content %}
+<div class="register">
+<div id="subButton" class="back">
+    <a href="{% url 'app:mine' %}"><span></span></a>
+</div>
+    <form action="{% url 'app:register' %}" method="post">
+        {% csrf_token %}
+
+    </form>
+</div>
+{% endblock %}

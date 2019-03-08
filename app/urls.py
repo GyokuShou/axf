@@ -9,4 +9,7 @@ urlpatterns = [
     url(r'^mine/$', views.mine, name='mine'),
 
     url(r'^market/(?P<childcid>\d+)/(?P<sortid>\d+)/$', views.market, name='market'),
+    url(r'^login/$', views.login, name='login'),
+    url(r'^logout/$', views.logout, name='logout'),
+    url(r'^register/$', views.register, name='register'),
 ]
