@@ -26,26 +26,44 @@ def home(request):
         'shopcommend': shopcommend,
         'mainshows': mainshows,
     }
-
     return render(request,'home/home.html',context=response_dir)
 
 
-def market(request,id=1):
-    page = request.COOKIES.get('page')
-    if page == None:
-        page = id
+def market(request,childcid='0',sortid='0'):
+    page = int(request.COOKIES.get('page', '0'))
     foodtypes = Foodtype.objects.all()
-    type_no = foodtypes.filter(id=page).first()
-    type_no = type_no.typeid
-    good_list = Goods.objects.filter(categoryid=type_no)
+    categoryid = foodtypes[page].typeid
+    good_list = Goods.objects.filter(categoryid=categoryid)
+
+    if childcid != '0':
+        good_list = good_list.filter(childcid=childcid)
+
+    if sortid == '1':
+        good_list = good_list.order_by('-productnum')
+    elif sortid == '2':
+        good_list = good_list.order_by('price')
+    elif sortid == '3':
+        good_list = good_list.order_by('-price')
+
+
+    childtypenames = foodtypes[page].childtypenames
+    childtype_list = []
+    for item in childtypenames.split('#'):
+        item_arr = item.split(':')
+        temp_dir = {
+            'name': item_arr[0],
+            'id': item_arr[1]
+        }
+        childtype_list.append(temp_dir)
+
     response_dir = {
         'foodtypes': foodtypes,
         'good_list': good_list,
-        'page': page,
+        'childtype_list': childtype_list,
+        'childcid': childcid,
     }
 
     response = render(request,'market/market.html', context=response_dir)
-    response.set_cookie('page',id)
     return response
 
 

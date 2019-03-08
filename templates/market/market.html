@@ -16,7 +16,7 @@
             {% for foodtype in foodtypes %}
                 <li class="type-item">
                     <span></span>
-                    <a href="{% url 'app:market' foodtype.id %}">
+                    <a href="{% url 'app:marketbase' %}">
                     {% if forloop.counter == foodtype.typesort %}
                         {{ foodtype.typename }}
                     {% endif %}
@@ -26,11 +26,11 @@
     </div>
     <nav>
         <ul>
-            <li>
+            <li id="category-bt">
                 <span>全部类型</span>
                 <i class="glyphicon glyphicon-chevron-up"></i>
             </li>
-            <li>
+            <li id="sort-bt">
                 <span>综合排序</span>
                 <i class="glyphicon glyphicon-chevron-up"></i>
             </li>
@@ -45,16 +45,37 @@
                         <img src="{{ good.productimg }}" alt="" class="goods-img">
                         <div class="goods-info">
                             <p class="name">{{ good.productlongname }}</p>
-                            <div class="detailtag">
-                                <span class="xf">{{ good.isxf }}</span>
-                                <i>{{ good.specifics }}</i>
-                            </div>
+                            <p class="detailtag">
+                                {% if good.isxf %}
+                                    <span class="xf">精选</span>
+                                {% endif %}
+                            </p>
+                            <p class="specifics">{{ good.specifics }}</p>
+                            <p class="price">
+                                <span class="now-price">{{ good.price }}</span>
+                                <span class="market-price">{{ good.marketprice }}</span>
+                            </p>
                         </div>
                     </a>
                 </li>
                 {% endfor %}
 
             </ul>
+        </div>
+        <div class="bounce-view category-view">
+            <div class="bounce-wrapper">
+                {% for childtype in childtype_list %}
+                    <a href="{% url 'app:market' childtype.id 0 %}">{{ childtype.name }}</a>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="bounce-view sort-view">
+            <div class="bounce-wrapper">
+                <a href="{% url 'app:market' childcid 0 %}">综合排序</a>
+                <a href="{% url 'app:market' childcid 1 %}">销量排序</a>
+                <a href="{% url 'app:market' childcid 2 %}">价格最低</a>
+                <a href="{% url 'app:market' childcid 3 %}">价格最高</a>
+            </div>
         </div>
     </div>
 </div>

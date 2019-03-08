@@ -6,3 +6,8 @@ footer .mine span {
 footer .mine .name {
     color: #ffd601;
 }
+
+.mine{
+    height: 100%;
+    width: 100%;
+}
