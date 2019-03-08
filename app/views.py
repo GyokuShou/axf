@@ -1,7 +1,10 @@
 import hashlib
+import random
 import time
 
-from django.shortcuts import render
+from django.core.cache import cache
+from django.http import HttpResponse
+from django.shortcuts import render, redirect
 
 # Create your views here.
 from app.models import Wheel, Nav, Mustbuy, Shop, MainShow, Foodtype, Goods, User
@@ -75,7 +78,13 @@ def cart(request):
 
 
 def mine(request):
-    return render(request,'mine/mine.html')
+    token = request.session.get('token')
+    userid = cache.get(token)
+    user = None
+    if userid:
+        user = User.objects.get(pk=userid)
+
+    return render(request,'mine/mine.html',context={'user':user})
 
 
 def login(request):
@@ -87,14 +96,16 @@ def logout(request):
 
 
 def generate_password(param):
-    md5 = hashlib.md5()
-    md5.update(param.encode('utf-8'))
-    return md5.hedigest()
+    sha1 = hashlib.sha1()
+    sha1.update(param.encode('utf-8'))
+    return sha1.hexdigest()
 
 
 def generate_token():
-    tmp = time.time()
-
+    token = str(time.time()) + str(random.random())
+    ps = hashlib.sha1()
+    ps.update(token.encode('utf-8'))
+    return ps.hexdigest()
 
 
 def register(request):
@@ -112,3 +123,6 @@ def register(request):
         user.save()
 
         token = generate_token()
+        cache.set(token, user.id, 60 * 60 * 24 * 3)
+        request.session['token']=token
+        return redirect('app:mine')

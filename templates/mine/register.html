@@ -10,12 +10,40 @@
 {% endblock %}
 {% block content %}
 <div class="register">
-<div id="subButton" class="back">
+<div class="back">
     <a href="{% url 'app:mine' %}"><span></span></a>
 </div>
     <form action="{% url 'app:register' %}" method="post">
         {% csrf_token %}
-
+        <div class="input-group">
+            <span class="input-group-btn">
+                <button class="btn btn-default" type="button">邮箱</button>
+            </span>
+            <input type="email" class="form-control" placeholder="邮箱" name="email">
+        </div>
+        <div class="input-group">
+            <span class="input-group-btn">
+                <button class="btn btn-default" type="button">密码</button>
+            </span>
+            <input type="password" class="form-control" placeholder="6位以上" name="password">
+        </div>
+        <div class="input-group">
+            <span class="input-group-btn">
+                <button class="btn btn-default" type="button">确认密码</button>
+            </span>
+            <input type="password" class="form-control" placeholder="6位以上">
+        </div>
+        <div class="input-group">
+            <span class="input-group-btn">
+                <button class="btn btn-default" type="button">昵称</button>
+            </span>
+            <input type="text" class="form-control" placeholder="随便起个名字" name="name">
+        </div>
+        <input type="submit" value="注册" id="subButton">
     </form>
 </div>
+{% endblock %}
+
+{% block extjs %}
+    <script src="{% static 'mine/js/register.js' %}"></script>
 {% endblock %}

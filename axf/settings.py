@@ -128,3 +128,24 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR,'static'),
 ]
+
+
+# CACHES = {
+#   'default': {
+#       'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+#       'LOCATION': 'cache_user_token',
+#   }
+# }
+
+CACHES = {
+ 'default': {
+     'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+     'LOCATION': 'cache_user_token',
+     'TIMEOUT': '60',
+     'OPTIONS': {
+         'MAX_ENTRIES': '300',
+     },
+     'KEY_PREFIX': 'gin',
+     'VERSION': '1',
+ }
+}
