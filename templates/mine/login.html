@@ -6,8 +6,34 @@
 {% block footer %}
 {% endblock %}
 {% block extcss %}
-    <link rel="stylesheet" href="{% static 'mine/css/mine.css' %}">
+    <link rel="stylesheet" href="{% static 'mine/css/login.css' %}">
 {% endblock %}
 {% block content %}
+<div class="login">
+    <div class="back">
+        <a href="{% url 'app:mine' %}">
+            <span class=" glyphicon glyphicon-remove "></span>
+        </a>
+    </div>
+    <form action="{% url 'app:login' %}" method="post">
+        {% csrf_token %}
+        <div class="input-group">
+            <span class="input-group-btn">
+                <button class="btn btn-default" type="button">邮箱</button>
+            </span>
+            <input type="email" class="form-control" placeholder="邮箱" name="email">
+        </div>
+        <div class="input-group">
+            <span class="input-group-btn">
+                <button class="btn btn-default" type="button">密码</button>
+            </span>
+            <input type="password" class="form-control" placeholder="输入密码" name="password">
+        </div>
+        <input type="submit" value="登录" id="subButton">
+    </form>
+</div>
+{% endblock %}
 
+{% block extjs %}
+    <script src="{% static 'mine/js/login.js' %}"></script>
 {% endblock %}

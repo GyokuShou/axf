@@ -10,9 +10,11 @@
 {% endblock %}
 {% block content %}
 <div class="register">
-<div class="back">
-    <a href="{% url 'app:mine' %}"><span></span></a>
-</div>
+    <div class="back">
+        <a href="{% url 'app:mine' %}">
+            <span class=" glyphicon glyphicon-remove "></span>
+        </a>
+    </div>
     <form action="{% url 'app:register' %}" method="post">
         {% csrf_token %}
         <div class="input-group">

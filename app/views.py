@@ -88,11 +88,25 @@ def mine(request):
 
 
 def login(request):
-    return render(request,'mine/login.html')
+    if request.method == 'GET':
+        return render(request,'mine/login.html')
+    elif request.method == 'POST':
+        email = request.POST.get('email')
+        password = generate_password(request.POST.get('password'))
+        user = User.objects.filter(email=email).filter(password=password)
+        if user.exists():
+            user = user.first()
+            token = generate_token()
+            cache.set(token,user.id,60*60*24*3)
+            request.session['token'] = token
+            return render(request,'mine/mine.html',context={'user':user})
+        else:
+            return render(request,'mine/login.html',context={'erroe':'用户名或密码错误'})
 
 
 def logout(request):
-    return None
+    request.session.flush()
+    return redirect('app:mine')
 
 
 def generate_password(param):
