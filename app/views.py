@@ -7,7 +7,7 @@ from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 
 # Create your views here.
-from app.models import Wheel, Nav, Mustbuy, Shop, MainShow, Foodtype, Goods, User
+from app.models import Wheel, Nav, Mustbuy, Shop, MainShow, Foodtype, Goods, User, Cart
 
 
 def home(request):
@@ -91,6 +91,7 @@ def login(request):
     if request.method == 'GET':
         return render(request,'mine/login.html')
     elif request.method == 'POST':
+        back = request.COOKIES.get('back')
         email = request.POST.get('email')
         password = generate_password(request.POST.get('password'))
         user = User.objects.filter(email=email).filter(password=password)
@@ -100,7 +101,11 @@ def login(request):
             cache.set(token,user.id,60*60*24*3)
             request.session['token'] = token
             # return render(request,'mine/mine.html',context={'user':user})
-            return redirect('app:mine')
+            if back == 'mine':
+                return redirect('app:mine')
+            else:
+                return redirect('app:marketbase')
+            # return redirect('app:mine')
         else:
             return render(request,'mine/login.html',context={'error':'用户名或密码错误'})
 
@@ -160,4 +165,28 @@ def checkemail(request):
 
 
 def addcart(request):
-    return None
+    token = request.session.get('token')
+    response_data = {}
+    if token:
+        userid = cache.get(token)
+        user = User.objects.filter(pk=userid)
+        if user.exists():
+            user = user.first()
+            goodsid = request.GET.get('goodsid')
+            good = Goods.objects.filter(pk=goodsid).first()
+            cart = Cart.objects.filter(user=user).filter(goods=good)
+            if cart.exists():
+                cart = cart.first()
+                cart.number += 1
+                cart.save()
+            else:
+                cart = Cart()
+                cart.user = user
+                cart.goods = good
+                cart.number = 1
+                cart.save()
+            response_data['status'] = 1
+            return JsonResponse(response_data)
+
+    response_data['status'] = -1
+    return JsonResponse(response_data)

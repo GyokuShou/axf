@@ -55,5 +55,44 @@ $(function(){
         sortShow = false;
         categoryViewHide();
         categoryShow = false;
-    })
+    });
+});
+
+$(function () {
+    $('.bt-wrapper .glyphicon-minus').hide();
+    $('.bt-wrapper i').hide();
+
+    // +++++
+    $('.bt-wrapper .glyphicon-plus').click(function(){
+        request_data = {
+            'goodsid': $(this).attr('data-goodsid'),
+        };
+        $.get('/addcart/', request_data, function (response) {
+            if (response.status == -1) {
+                $.cookie('back', 'market', {exprires: 3, path: '/'});
+                window.open('/login/', '_self');
+            } else {
+                $(this).prev().text($(this).prev().text()+1);
+                $(this).prevAll().show();
+            }
+        });
+    });
+
+    // -----
+    $('.bt-wrapper .glyphicon-minus').click(function () {
+        request_data = {
+            'goodsid': $(this).attr('data-goodsid'),
+        };
+        $.get('/addcart/', request_data, function (response) {
+            if (response.status == -1) {
+                $.cookie('back', 'market', {exprires: 3, path: '/'});
+                window.open('/login/', '_self');
+            }
+            if($('.glyphicon-minus').innerText == 0){
+                $(this).hide();
+                $(this).next().hide();
+            }
+            $(this).prev().innerText -= 1;
+        });
+    });
 });
