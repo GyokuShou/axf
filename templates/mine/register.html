@@ -17,32 +17,37 @@
     </div>
     <form action="{% url 'app:register' %}" method="post">
         {% csrf_token %}
-        <div class="input-group">
-            <span class="input-group-btn">
-                <button class="btn btn-default" type="button">邮箱</button>
-            </span>
-            <input type="email" class="form-control" placeholder="邮箱" name="email">
+        <div class="form-group has-feedback" id="email">
+            <div class="input-group">
+                <span class="input-group-addon">邮箱</span>
+                <input type="text" class="form-control" placeholder="邮箱" name="email" id="email-t" data-toggle="popover" data-placement="bottom" data-content="格式不正确">
+            </div>
+            <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
         </div>
-        <div class="input-group">
-            <span class="input-group-btn">
-                <button class="btn btn-default" type="button">密码</button>
-            </span>
-            <input type="password" class="form-control" placeholder="6位以上" name="password">
+        <div class="form-group has-feedback" id="password">
+            <div class="input-group">
+                <span class="input-group-addon">密码</span>
+                <input type="password" class="form-control" placeholder="6位以上" name="password" id="password-t" data-toggle="popover" data-placement="bottom" data-content="格式不正确">
+            </div>
+            <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
         </div>
-        <div class="input-group">
-            <span class="input-group-btn">
-                <button class="btn btn-default" type="button">确认密码</button>
-            </span>
-            <input type="password" class="form-control" placeholder="6位以上">
+        <div class="form-group has-feedback" id="verify-psd">
+            <div class="input-group">
+                <span class="input-group-addon">确认密码</span>
+                <input type="password" class="form-control" placeholder="6位以上" id="verify-psd-t" data-toggle="popover" data-placement="bottom" data-content="密码不一致">
+            </div>
+            <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
         </div>
-        <div class="input-group">
-            <span class="input-group-btn">
-                <button class="btn btn-default" type="button">昵称</button>
-            </span>
-            <input type="text" class="form-control" placeholder="随便起个名字" name="name">
+        <div class="form-group has-feedback" id="nic-name">
+            <div class="input-group">
+                <span class="input-group-addon">昵称</span>
+                <input type="text" class="form-control" placeholder="随便起个名字" name="name" id="nic-name-t" data-toggle="popover" data-placement="bottom" data-content="字数过短">
+            </div>
+            <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
         </div>
-        <input type="submit" value="注册" id="subButton">
+{#        <input type="submit" value="注册" id="subButton">#}
     </form>
+    <button id="subButton">注册</button>
 </div>
 {% endblock %}
 

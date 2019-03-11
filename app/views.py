@@ -3,7 +3,7 @@ import random
 import time
 
 from django.core.cache import cache
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 
 # Create your views here.
@@ -99,9 +99,10 @@ def login(request):
             token = generate_token()
             cache.set(token,user.id,60*60*24*3)
             request.session['token'] = token
-            return render(request,'mine/mine.html',context={'user':user})
+            # return render(request,'mine/mine.html',context={'user':user})
+            return redirect('app:mine')
         else:
-            return render(request,'mine/login.html',context={'erroe':'用户名或密码错误'})
+            return render(request,'mine/login.html',context={'error':'用户名或密码错误'})
 
 
 def logout(request):
@@ -130,13 +131,33 @@ def register(request):
         name = request.POST.get('name')
         password = generate_password(request.POST.get('password'))
 
-        user = User()
-        user.email = email
-        user.name = name
-        user.password = password
-        user.save()
+        try:
+            user = User()
+            user.email = email
+            user.name = name
+            user.password = password
+            user.save()
 
-        token = generate_token()
-        cache.set(token, user.id, 60 * 60 * 24 * 3)
-        request.session['token']=token
-        return redirect('app:mine')
+            token = generate_token()
+            cache.set(token, user.id, 60 * 60 * 24 * 3)
+            request.session['token']=token
+            return redirect('app:mine')
+        except Exception as e:
+            return render(request,'mine/register.html')
+
+
+def checkemail(request):
+    email = request.GET.get('email')
+    user = User.objects.filter(email=email)
+    response_data = {}
+    if user.exists():
+        response_data['status'] = False
+        response_data['msg'] = '该账户已被占用'
+    else:
+        response_data['status'] = True
+        response_data['msg'] = '该用户名可用'
+    return JsonResponse(response_data)
+
+
+def addcart(request):
+    return None
