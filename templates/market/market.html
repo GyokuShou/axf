@@ -58,8 +58,15 @@
                         </div>
                     </a>
                     <div class="bt-wrapper">
-                        <span class="glyphicon glyphicon-minus"></span>
-                        <i class="num">0</i>
+                        <span class="glyphicon glyphicon-minus" data-goodsid="{{ good.id }}"></span>
+                        <i class="num">
+                            {% for cart in carts %}
+                                {% if good.id == cart.goods.id %}
+                                    {{ cart.number }}
+                                {% endif %}
+                            {% endfor %}
+
+                        </i>
                         <span class="glyphicon glyphicon-plus" data-goodsid="{{ good.id }}"></span>
                     </div>
                 </li>

@@ -41,6 +41,8 @@ def market(request,childcid='0',sortid='0'):
     categoryid = foodtypes[page].typeid
     good_list = Goods.objects.filter(categoryid=categoryid)
 
+
+
     if childcid != '0':
         good_list = good_list.filter(childcid=childcid)
 
@@ -69,12 +71,24 @@ def market(request,childcid='0',sortid='0'):
         'childcid': childcid,
     }
 
+    token = request.session.get('token')
+    userid = cache.get(token)
+    if userid:
+        user = User.objects.filter(pk=userid).first()
+        cart = user.cart_set.all()
+        response_dir['carts'] = cart
+
     response = render(request,'market/market.html', context=response_dir)
     return response
 
 
 def cart(request):
-    return render(request,'cart/cart.html')
+    cart = Cart.objects.all()
+
+    response_data = {
+        'carts': cart
+    }
+    return render(request,'cart/cart.html',context=response_data)
 
 
 def mine(request):
@@ -186,7 +200,32 @@ def addcart(request):
                 cart.number = 1
                 cart.save()
             response_data['status'] = 1
+            response_data['num'] = cart.number
             return JsonResponse(response_data)
 
     response_data['status'] = -1
+    return JsonResponse(response_data)
+
+
+def subcart(request):
+    goodsid = request.GET.get('goodsid')
+    response_data = {}
+    goods = Goods.objects.get(pk=goodsid)
+    token = request.session.get('token')
+    userid = cache.get(token)
+    user = User.objects.get(pk=userid)
+
+    cart = Cart.objects.filter(user=user).filter(goods=goods).first()
+    cart.number -= 1
+    cart.save()
+    response_data['status']=1
+    response_data['num'] = cart.number
+    return JsonResponse(response_data)
+
+
+def changecartselect(request):
+    print(request.GET.get('cartid'))
+    response_data = {
+        'status': 1,
+    }
     return JsonResponse(response_data)
