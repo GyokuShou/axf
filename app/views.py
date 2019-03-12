@@ -7,7 +7,7 @@ from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 
 # Create your views here.
-from app.models import Wheel, Nav, Mustbuy, Shop, MainShow, Foodtype, Goods, User, Cart
+from app.models import Wheel, Nav, Mustbuy, Shop, MainShow, Foodtype, Goods, User, Cart, Order, OrderGoods
 
 
 def home(request):
@@ -83,10 +83,20 @@ def market(request,childcid='0',sortid='0'):
 
 
 def cart(request):
-    cart = Cart.objects.all()
+    token = request.session.get('token')
+    userid = cache.get(token)
+    user = User.objects.get(pk=userid)
+
+    carts = user.cart_set.filter(number__gt=0)
+
+    isall = True
+    for cart in carts:
+        if not cart.isselect:
+            isall = False
 
     response_data = {
-        'carts': cart
+        'carts': carts,
+        'isall': isall,
     }
     return render(request,'cart/cart.html',context=response_data)
 
@@ -224,8 +234,71 @@ def subcart(request):
 
 
 def changecartselect(request):
-    print(request.GET.get('cartid'))
+    cartid = request.GET.get('cartid')
+    cart = Cart.objects.get(pk=cartid)
+    cart.isselect = not cart.isselect
+    cart.save()
+
+    response_data = {
+        'status': 1,
+        'isselect': cart.isselect,
+    }
+    return JsonResponse(response_data)
+
+
+def changecartall(request):
+    isall = request.GET.get('isall')
+
+    token = request.session.get('token')
+    userid = cache.get(token)
+    user = User.objects.get(pk=userid)
+    carts = user.cart_set.all()
+
+    if isall == 'true':
+        isall = True
+    else:
+        isall = False
+
+    for cart in carts:
+        cart.isselect = 1
+        cart.save()
+
     response_data = {
         'status': 1,
     }
+
     return JsonResponse(response_data)
+
+
+def generate_identifier():
+    tmp = str(time.time()) + str(random.randrange(1000,10000))
+    return tmp
+
+
+def generateorder(request):
+    token = request.session.get('token')
+    userid = cache.get(token)
+    user = User.objects.get(pk=userid)
+
+    order = Order()
+    order.user = user
+    order.identifier = generate_identifier()
+    order.save()
+
+    carts = user.cart_set.filter(isselect=True)
+    for cart in carts:
+        order_goods = OrderGoods()
+        order_goods.goods = cart.goods
+        order_goods.order = order
+        order_goods.number = cart.number
+        order_goods.save()
+
+        cart.delete()
+
+    # response_data = {
+    #     'status': 1,
+    #     'identifier': order.identifier
+    # }
+
+
+    return render(request,'order/orderdetail.html',context={'order':order})

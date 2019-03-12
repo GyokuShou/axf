@@ -37,18 +37,26 @@
     </ul>
     <div class="bill">
         <div class="bill-left">
-            <div class="all">
-                <span class="no"></span>
+            <div class="all" data-all="{{ isall|lower }}">
+                {% if isall %}
+                    <span class="glyphicon glyphicon-ok"></span>
+                {% else %}
+                    <span class="no"></span>
+                {% endif %}
                 <b>全选</b>
             </div>
             <div class="total">
                 <span>￥</span>
-                <b>0</b>
+                <b></b>
             </div>
         </div>
         <div class="bill-right">
-            下单
+            <a href="{% url 'app:generateorder' %}">下单</a>
         </div>
 </div>
 </div>
+{% endblock %}
+
+{% block extjs %}
+    <script src="{% static 'cart/js/cart.js' %}"></script>
 {% endblock %}
