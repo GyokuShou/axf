@@ -104,11 +104,17 @@ def cart(request):
 def mine(request):
     token = request.session.get('token')
     userid = cache.get(token)
-    user = None
+    response_data = {
+        'user':None,
+    }
     if userid:
         user = User.objects.get(pk=userid)
+        response_data['user'] = user
+        orders = user.order_set.all()
+        response_data['waitpay'] = orders.filter(status=0).count()
+        response_data['paydone'] = orders.filter(status=1).count()
 
-    return render(request,'mine/mine.html',context={'user':user})
+    return render(request,'mine/mine.html',context=response_data)
 
 
 def login(request):
@@ -295,10 +301,18 @@ def generateorder(request):
 
         cart.delete()
 
-    # response_data = {
-    #     'status': 1,
-    #     'identifier': order.identifier
-    # }
-
-
     return render(request,'order/orderdetail.html',context={'order':order})
+
+def orderlist(request):
+    token = request.session.get('token')
+    userid = cache.get(token)
+    user = User.objects.get(pk=userid)
+
+    orders = user.order_set.all()
+
+    return render(request, 'order/orderlist.html', context={'orders':orders})
+
+
+def orderdetail(request, identifier):
+    order = Order.objects.filter(identifier=identifier).first()
+    return render(request, 'order/orderdetail.html', context={'order': order})
